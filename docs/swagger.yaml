@@ -1,0 +1,509 @@
+definitions:
+  genproto.ById:
+    properties:
+      Id:
+        type: string
+    type: object
+  genproto.CreateRestaurantReq:
+    properties:
+      Address:
+        type: string
+      Description:
+        type: string
+      Id:
+        type: string
+      Name:
+        type: string
+      PhoneNumber:
+        type: string
+    type: object
+  genproto.Menu:
+    properties:
+      Description:
+        type: string
+      Id:
+        type: string
+      Name:
+        type: string
+      Price:
+        type: number
+      RestaurantId:
+        type: string
+    type: object
+  genproto.Reservation:
+    properties:
+      ReservationTime:
+        type: string
+      RestaurantId:
+        type: string
+      Status:
+        type: string
+      User_id:
+        type: string
+    type: object
+  genproto.ReservationCreate:
+    properties:
+      Id:
+        type: string
+      ReservationTime:
+        type: string
+      RestaurantId:
+        type: string
+      Status:
+        type: string
+      User_id:
+        type: string
+    type: object
+  genproto.Restaurant:
+    properties:
+      Address:
+        type: string
+      Description:
+        type: string
+      Name:
+        type: string
+      PhoneNumber:
+        type: string
+    type: object
+  genproto.Restaurants:
+    properties:
+      Restaurants:
+        items:
+          $ref: '#/definitions/genproto.Restaurant'
+        type: array
+    type: object
+  genproto.Void:
+    type: object
+info:
+  contact: {}
+paths:
+  /menu/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: This api DELETES menu by id
+      parameters:
+      - description: MENU ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: menu deleted successfully
+          schema:
+            type: string
+        "400":
+          description: Bad Request
+          schema:
+            type: string
+        "404":
+          description: Not Found
+          schema:
+            type: string
+      summary: DELETES Menu
+      tags:
+      - MENU
+    get:
+      consumes:
+      - application/json
+      description: This api GETS menu by id
+      parameters:
+      - description: MENU ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/genproto.Menu'
+        "400":
+          description: Bad Request
+          schema:
+            type: string
+        "404":
+          description: Not Found
+          schema:
+            type: string
+      summary: GET MENU
+      tags:
+      - MENU
+  /menu/all:
+    get:
+      consumes:
+      - application/json
+      description: This api GETS ALL menus by id
+      parameters:
+      - description: RESTAURANT ID
+        in: query
+        name: rest_id
+        type: string
+      - description: PriceFrom
+        in: query
+        name: price_from
+        type: string
+      - description: PriceTo
+        in: query
+        name: price_to
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/genproto.Reservation'
+        "400":
+          description: Bad Request
+          schema:
+            type: string
+        "404":
+          description: Not Found
+          schema:
+            type: string
+      summary: GETS ALL MENUS
+      tags:
+      - MENU
+  /menu/create:
+    post:
+      consumes:
+      - application/json
+      description: This api create menu
+      parameters:
+      - description: Menu
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/genproto.Menu'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: menu created successfully
+          schema:
+            type: string
+        "400":
+          description: Bad Request
+          schema:
+            type: string
+      summary: Create Menu
+      tags:
+      - MENU
+  /menu/update:
+    put:
+      consumes:
+      - application/json
+      description: This api UPDATES menu
+      parameters:
+      - description: MENU
+        in: body
+        name: reservation
+        required: true
+        schema:
+          $ref: '#/definitions/genproto.Menu'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: menu updated successfully
+          schema:
+            type: string
+        "400":
+          description: Bad Request
+          schema:
+            type: string
+        "404":
+          description: Not Found
+          schema:
+            type: string
+      summary: UPDATES MENU
+      tags:
+      - MENU
+  /reservation/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: This api DELETES reservation by id
+      parameters:
+      - description: RESERVATION ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: reservation deleted successfully
+          schema:
+            type: string
+        "400":
+          description: Bad Request
+          schema:
+            type: string
+        "404":
+          description: Not Found
+          schema:
+            type: string
+      summary: DELETES RESERVATION
+      tags:
+      - RESERVATION
+    get:
+      consumes:
+      - application/json
+      description: This api GETS reservation by id
+      parameters:
+      - description: RESERVATION ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/genproto.Reservation'
+        "400":
+          description: Bad Request
+          schema:
+            type: string
+        "404":
+          description: Not Found
+          schema:
+            type: string
+      summary: GET RESERVATION
+      tags:
+      - RESERVATION
+  /reservation/all:
+    get:
+      consumes:
+      - application/json
+      description: This api GETS ALL reservation by id
+      parameters:
+      - description: RESTAURANT ID
+        in: query
+        name: rest_id
+        type: string
+      - description: ReservationFrom
+        in: query
+        name: time_from
+        type: string
+      - description: ReservationTo
+        in: query
+        name: time_to
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/genproto.Reservation'
+        "400":
+          description: Bad Request
+          schema:
+            type: string
+        "404":
+          description: Not Found
+          schema:
+            type: string
+      summary: GETS ALL RESERVATION
+      tags:
+      - RESERVATION
+  /reservation/create:
+    post:
+      consumes:
+      - application/json
+      description: This api create reservation
+      parameters:
+      - description: ReservationCreate
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/genproto.ReservationCreate'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: reservation created successfully
+          schema:
+            type: string
+        "400":
+          description: Bad Request
+          schema:
+            type: string
+      summary: Create Reservation
+      tags:
+      - RESERVATION
+  /reservation/update:
+    put:
+      consumes:
+      - application/json
+      description: This api UPDATES reservation by id
+      parameters:
+      - description: RESERVATION
+        in: body
+        name: reservation
+        required: true
+        schema:
+          $ref: '#/definitions/genproto.ReservationCreate'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: reservation updated successfully
+          schema:
+            type: string
+        "400":
+          description: Bad Request
+          schema:
+            type: string
+        "404":
+          description: Not Found
+          schema:
+            type: string
+      summary: UPDATES RESERVATION
+      tags:
+      - RESERVATION
+  /restaurant/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: This api logs  restaurant in
+      parameters:
+      - description: RESTAURANT ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/genproto.Void'
+        "400":
+          description: Bad Request
+          schema:
+            type: string
+      summary: Delete Restaurant
+      tags:
+      - RESTAURANT
+    get:
+      consumes:
+      - application/json
+      description: This api GETS restaurant by id
+      parameters:
+      - description: RESTAURANT ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/genproto.Restaurant'
+        "400":
+          description: Bad Request
+          schema:
+            type: string
+        "404":
+          description: Not Found
+          schema:
+            type: string
+      security:
+      - BearerAuth: []
+      summary: GET RESTAURANT
+      tags:
+      - RESTAURANT
+    put:
+      consumes:
+      - application/json
+      description: This api logs  restaurant in
+      parameters:
+      - description: ById
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/genproto.ById'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/genproto.Void'
+        "400":
+          description: Bad Request
+          schema:
+            type: string
+      summary: Update Restaurant
+      tags:
+      - RESTAURANT
+  /restaurant/all:
+    get:
+      consumes:
+      - application/json
+      description: This api logs restaurant in
+      parameters:
+      - description: RESTAURANT Address
+        in: path
+        name: address
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/genproto.Restaurants'
+        "400":
+          description: Bad Request
+          schema:
+            type: string
+      summary: Get all Restaurants
+      tags:
+      - RESTAURANT
+  /restaurant/create:
+    post:
+      consumes:
+      - application/json
+      description: This api create restaurant
+      parameters:
+      - description: CreateRestaurantReq
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/genproto.CreateRestaurantReq'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/genproto.Void'
+        "400":
+          description: Bad Request
+          schema:
+            type: string
+      summary: Create Restaurant
+      tags:
+      - RESTAURANT
+swagger: "2.0"
