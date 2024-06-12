@@ -1,9 +1,4 @@
 definitions:
-  genproto.ById:
-    properties:
-      Id:
-        type: string
-    type: object
   genproto.CreateRestaurantReq:
     properties:
       Address:
@@ -29,6 +24,24 @@ definitions:
         type: number
       RestaurantId:
         type: string
+    type: object
+  genproto.Order:
+    properties:
+      Id:
+        type: string
+      MenuItemId:
+        type: string
+      Quantity:
+        type: integer
+      ReservationId:
+        type: string
+    type: object
+  genproto.Orders:
+    properties:
+      Orders:
+        items:
+          $ref: '#/definitions/genproto.Order'
+        type: array
     type: object
   genproto.Reservation:
     properties:
@@ -226,6 +239,142 @@ paths:
       summary: UPDATES MENU
       tags:
       - MENU
+  /order/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: This api logs order in
+      parameters:
+      - description: ORDER ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/genproto.Void'
+        "400":
+          description: Bad Request
+          schema:
+            type: string
+      summary: Delete Order
+      tags:
+      - ORDER
+    get:
+      consumes:
+      - application/json
+      description: This api GETS order by id
+      parameters:
+      - description: ORDER ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/genproto.Order'
+        "400":
+          description: Bad Request
+          schema:
+            type: string
+        "404":
+          description: Not Found
+          schema:
+            type: string
+      security:
+      - BearerAuth: []
+      summary: GET ORDER
+      tags:
+      - ORDER
+    put:
+      consumes:
+      - application/json
+      description: This api logs order in
+      parameters:
+      - description: ById
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Menu Item ID
+        in: query
+        name: menu_item_id
+        type: string
+      - description: Reservation ID
+        in: query
+        name: reservation_id
+        type: string
+      - description: Quantity
+        in: query
+        name: quantity
+        type: string
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/genproto.Void'
+        "400":
+          description: Bad Request
+          schema:
+            type: string
+      summary: Update Order
+      tags:
+      - ORDER
+  /order/all:
+    get:
+      consumes:
+      - application/json
+      description: This api logs order in
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/genproto.Orders'
+        "400":
+          description: Bad Request
+          schema:
+            type: string
+      summary: Get all Orders
+      tags:
+      - ORDER
+  /order/create:
+    post:
+      consumes:
+      - application/json
+      description: This api create order
+      parameters:
+      - description: Void
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/genproto.Order'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/genproto.Void'
+        "400":
+          description: Bad Request
+          schema:
+            type: string
+      summary: Create Order
+      tags:
+      - ORDER
   /reservation/{id}:
     delete:
       consumes:
@@ -435,12 +584,17 @@ paths:
       - application/json
       description: This api logs  restaurant in
       parameters:
-      - description: ById
+      - description: Restaurant ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: 'Restaurant '
         in: body
-        name: data
+        name: restaurant
         required: true
         schema:
-          $ref: '#/definitions/genproto.ById'
+          $ref: '#/definitions/genproto.Restaurant'
       produces:
       - application/json
       responses:
@@ -462,15 +616,14 @@ paths:
       description: This api logs restaurant in
       parameters:
       - description: RESTAURANT Address
-        in: path
+        in: query
         name: address
-        required: true
         type: string
       produces:
       - application/json
       responses:
-        "201":
-          description: Created
+        "200":
+          description: OK
           schema:
             $ref: '#/definitions/genproto.Restaurants'
         "400":

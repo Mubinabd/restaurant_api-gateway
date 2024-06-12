@@ -52,7 +52,14 @@ func NewGin(h *handler.HandlerStruct) *gin.Engine {
         menu.PUT("/update", h.UpdateMenu)
         menu.DELETE("/:id", h.DeleteMenu)
 	}
-	
+	order := r.Group("/order")
+	{
+		order.POST("/create", h.CreateOrder)
+        order.GET("/:id", h.GetOrder)
+        order.GET("/all", h.GetAllOrders)
+        order.PUT("/:id", h.UpdateOrder)
+        order.DELETE("/:id", h.DeleteOrder)
+	}
 
 
 	url := ginSwagger.URL("swagger/doc.json")

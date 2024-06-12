@@ -63,24 +63,26 @@ func (h *HandlerStruct)GetRestaurant(c *gin.Context) {
 // @Tags 				RESTAURANT
 // @Accept 				json
 // @Produce 			json
-// @Param data 			body pb.ById true "ById"
+// @Param id 			path string true "Restaurant ID"
+// @Param restaurant    body pb.Restaurant true "Restaurant "
 // @Success 201 		{object} pb.Void
 // @Failure 400 		string Error
 func (h *HandlerStruct)UpdateRestaurant(c *gin.Context) {
-	var req pb.CreateRestaurantReq
-	name := c.Query("name")
-	address := c.Query("address")
-	PhoneNumber := c.Query("phone_number")
-	description := c.Query("description")
-	req.Name = name
-	req.Address = address
-	req.PhoneNumber = PhoneNumber
-	req.Description = description
-
-	if err := c.BindJSON(&req); err != nil {
-		c.JSON(400, gin.H{"Error when binding json": err.Error()})
-		return
+	id := c.Param("id")
+	var rest_req pb.Restaurant
+	if err := c.ShouldBindJSON(&rest_req); err != nil {
+		c.JSON(400, gin.H{"error": err.Error()})
+        return
 	}
+	req := pb.CreateRestaurantReq{
+		Id: id,
+        Name: rest_req.Name,
+        Address: rest_req.Address,
+        PhoneNumber: rest_req.PhoneNumber,
+        Description: rest_req.Description,
+	}
+
+	log.Println(id,req)
 	_, err := h.Clients.RestaurantClient.UpdateRestaurant(c.Request.Context(), &req)
 	if err != nil {
 		c.JSON(400, gin.H{"Error when updating restaurant": err.Error()})
@@ -117,18 +119,14 @@ func (h *HandlerStruct)DeleteRestaurant(c *gin.Context) {
 // @Tags 				RESTAURANT
 // @Accept 				json
 // @Produce 			json
-// @Param 			    address path string true "RESTAURANT Address"
-// @Success 201 		{object} pb.Restaurants
+// @Param 			    address query string false "RESTAURANT Address"
+// @Success 200 		{object} pb.Restaurants
 // @Failure 400 		string Error
 func (h *HandlerStruct) GetAllRestaurants(c *gin.Context) {
 	var addressFilter pb.AddressFilter
-	address := c.Param("address")
+	address := c.Query("address")
 	addressFilter.Address = address
-	// if err := c.ShouldBindJSON(&addressFilter); err != nil {
-	// 	c.JSON(400, gin.H{"error": "Invalid input"})
-	// 	return
-	// }
-
+	// log.Println(address,addressFilter)
 	restaurants, err := h.Clients.RestaurantClient.GetAllRestaurants(c.Request.Context(), &addressFilter)
 	if err != nil {
 		c.JSON(400, gin.H{"error": err.Error()})
