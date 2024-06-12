@@ -82,7 +82,7 @@ func (h *HandlerStruct)UpdateRestaurant(c *gin.Context) {
         Description: rest_req.Description,
 	}
 
-	log.Println(id,req)
+	// log.Println(id,req)
 	_, err := h.Clients.RestaurantClient.UpdateRestaurant(c.Request.Context(), &req)
 	if err != nil {
 		c.JSON(400, gin.H{"Error when updating restaurant": err.Error()})

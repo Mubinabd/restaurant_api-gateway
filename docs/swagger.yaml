@@ -43,6 +43,30 @@ definitions:
           $ref: '#/definitions/genproto.Order'
         type: array
     type: object
+  genproto.Payment:
+    properties:
+      Amount:
+        type: number
+      Id:
+        type: string
+      PaymentMethod:
+        type: string
+      PaymentStatus:
+        type: string
+      ReservationId:
+        type: string
+    type: object
+  genproto.PaymentCreate:
+    properties:
+      Amount:
+        type: number
+      Id:
+        type: string
+      PaymentMethod:
+        type: string
+      ReservationId:
+        type: string
+    type: object
   genproto.Reservation:
     properties:
       ReservationTime:
@@ -375,6 +399,119 @@ paths:
       summary: Create Order
       tags:
       - ORDER
+  /payment/{id}:
+    get:
+      consumes:
+      - application/json
+      description: This api gets payment
+      parameters:
+      - description: PaymentCreate
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/genproto.Payment'
+        "400":
+          description: Bad Request
+          schema:
+            type: string
+      summary: Gets Payment
+      tags:
+      - PAYMENT
+  /payment/all:
+    get:
+      consumes:
+      - application/json
+      description: This api gets all payments
+      parameters:
+      - description: PaymentMethod
+        in: path
+        name: payment_method
+        type: string
+      - description: AmountFrom
+        in: path
+        name: amount_from
+        type: string
+      - description: AmountTo
+        in: path
+        name: amount_to
+        type: string
+      - description: PaymentStatus
+        in: path
+        name: payment_status
+        type: string
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/genproto.Payment'
+        "400":
+          description: Bad Request
+          schema:
+            type: string
+      summary: Gets all Payments
+      tags:
+      - PAYMENT
+  /payment/create:
+    post:
+      consumes:
+      - application/json
+      description: This api creates payment
+      parameters:
+      - description: PaymentCreate
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/genproto.PaymentCreate'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/genproto.Payment'
+        "400":
+          description: Bad Request
+          schema:
+            type: string
+      summary: Creates Payment
+      tags:
+      - PAYMENT
+  /payment/update:
+    post:
+      consumes:
+      - application/json
+      description: This api updates payment
+      parameters:
+      - description: PaymentCreate
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/genproto.PaymentCreate'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/genproto.Payment'
+        "400":
+          description: Bad Request
+          schema:
+            type: string
+      summary: Updates Payment
+      tags:
+      - PAYMENT
   /reservation/{id}:
     delete:
       consumes:
@@ -430,6 +567,40 @@ paths:
           schema:
             type: string
       summary: GET RESERVATION
+      tags:
+      - RESERVATION
+    put:
+      consumes:
+      - application/json
+      description: This api UPDATES reservation by id
+      parameters:
+      - description: Reservation ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: RESERVATION
+        in: body
+        name: reservation
+        required: true
+        schema:
+          $ref: '#/definitions/genproto.Reservation'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: reservation updated successfully
+          schema:
+            type: string
+        "400":
+          description: Bad Request
+          schema:
+            type: string
+        "404":
+          description: Not Found
+          schema:
+            type: string
+      summary: UPDATES RESERVATION
       tags:
       - RESERVATION
   /reservation/all:
@@ -492,36 +663,6 @@ paths:
           schema:
             type: string
       summary: Create Reservation
-      tags:
-      - RESERVATION
-  /reservation/update:
-    put:
-      consumes:
-      - application/json
-      description: This api UPDATES reservation by id
-      parameters:
-      - description: RESERVATION
-        in: body
-        name: reservation
-        required: true
-        schema:
-          $ref: '#/definitions/genproto.ReservationCreate'
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: reservation updated successfully
-          schema:
-            type: string
-        "400":
-          description: Bad Request
-          schema:
-            type: string
-        "404":
-          description: Not Found
-          schema:
-            type: string
-      summary: UPDATES RESERVATION
       tags:
       - RESERVATION
   /restaurant/{id}:

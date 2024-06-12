@@ -21,15 +21,21 @@ func NewClients() *Clients {
 	if err != nil {
 		slog.Error("error:", err)
 	}
+	conn2,err := grpc.NewClient("localhost:50051", grpc.WithTransportCredentials(insecure.NewCredentials()))
+	if err!= nil {
+        slog.Error("error:", err)
+    }
 	restC := pb.NewRestaurantServiceClient(conn)
 	orderC := pb.NewOrderServiceClient(conn)
 	menuC := pb.NewMenuServiceClient(conn)
 	reservationC := pb.NewReservationServiceClient(conn)
+	
+	paymentC := pb.NewPaymentServiceClient(conn2)
 	return &Clients{
 		RestaurantClient:  restC,
         OrderClient:       orderC,
         MenuClient:        menuC,
-        // PaymentClient:     paymentC,
+        PaymentClient:     paymentC,
         ReservationClient: reservationC,
 	}
 }

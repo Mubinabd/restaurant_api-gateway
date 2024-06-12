@@ -53,23 +53,32 @@ func (h *HandlerStruct) GetReservation(c *gin.Context) {
 	c.JSON(200, reservation)
 }
 
-// @Router 				/reservation/update [PUT]
+// @Router 				/reservation/{id} [PUT]
 // @Summary 			UPDATES RESERVATION
 // @Description		 	This api UPDATES reservation by id
 // @Tags 				RESERVATION
 // @Accept 				json
 // @Produce 			json
-// @Param  reservation  body genproto.ReservationCreate true "RESERVATION"
+// @Param  id           path string true "Reservation ID"
+// @Param  reservation  body genproto.Reservation true "RESERVATION"
 // @Success 200			{object} string "reservation updated successfully"
 // @Failure 400 		string Error
 // @Failure 404 		string Error
 func (h *HandlerStruct) UpdateReservation(c *gin.Context) {
-	var req genproto.ReservationCreate
+	id := c.Param("id")
+	var req genproto.Reservation
 	if err := c.ShouldBindJSON(&req); err != nil {
 		c.JSON(400, gin.H{"error": err.Error()})
 		return
 	}
-	_, err := h.Clients.ReservationClient.UpdateReservation(context.Background(), &req)
+	reser := genproto.ReservationCreate{
+		Id: id,
+		UserId: req.UserId,
+        Status: req.Status,
+        RestaurantId: req.RestaurantId,
+		ReservationTime: req.ReservationTime,
+	}
+	_, err := h.Clients.ReservationClient.UpdateReservation(context.Background(), &reser)
 	if err != nil {
 		c.JSON(400, gin.H{"error": err.Error()})
 		return
