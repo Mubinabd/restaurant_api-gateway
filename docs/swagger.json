@@ -231,6 +231,214 @@
                 }
             }
         },
+        "/order/all": {
+            "get": {
+                "description": "This api logs order in",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "ORDER"
+                ],
+                "summary": "Get all Orders",
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "$ref": "#/definitions/genproto.Orders"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/order/create": {
+            "post": {
+                "description": "This api create order",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "ORDER"
+                ],
+                "summary": "Create Order",
+                "parameters": [
+                    {
+                        "description": "Void",
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/genproto.Order"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "$ref": "#/definitions/genproto.Void"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/order/{id}": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "This api GETS order by id",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "ORDER"
+                ],
+                "summary": "GET ORDER",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "ORDER ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/genproto.Order"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "description": "This api logs order in",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "ORDER"
+                ],
+                "summary": "Update Order",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "ById",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Menu Item ID",
+                        "name": "menu_item_id",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Reservation ID",
+                        "name": "reservation_id",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Quantity",
+                        "name": "quantity",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "$ref": "#/definitions/genproto.Void"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "description": "This api logs order in",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "ORDER"
+                ],
+                "summary": "Delete Order",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "ORDER ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "$ref": "#/definitions/genproto.Void"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
         "/reservation/all": {
             "get": {
                 "description": "This api GETS ALL reservation by id",
@@ -476,13 +684,12 @@
                         "type": "string",
                         "description": "RESTAURANT Address",
                         "name": "address",
-                        "in": "path",
-                        "required": true
+                        "in": "query"
                     }
                 ],
                 "responses": {
-                    "201": {
-                        "description": "Created",
+                    "200": {
+                        "description": "OK",
                         "schema": {
                             "$ref": "#/definitions/genproto.Restaurants"
                         }
@@ -598,12 +805,19 @@
                 "summary": "Update Restaurant",
                 "parameters": [
                     {
-                        "description": "ById",
-                        "name": "data",
+                        "type": "string",
+                        "description": "Restaurant ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "Restaurant ",
+                        "name": "restaurant",
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/genproto.ById"
+                            "$ref": "#/definitions/genproto.Restaurant"
                         }
                     }
                 ],
@@ -661,14 +875,6 @@
         }
     },
     "definitions": {
-        "genproto.ById": {
-            "type": "object",
-            "properties": {
-                "Id": {
-                    "type": "string"
-                }
-            }
-        },
         "genproto.CreateRestaurantReq": {
             "type": "object",
             "properties": {
@@ -706,6 +912,34 @@
                 },
                 "RestaurantId": {
                     "type": "string"
+                }
+            }
+        },
+        "genproto.Order": {
+            "type": "object",
+            "properties": {
+                "Id": {
+                    "type": "string"
+                },
+                "MenuItemId": {
+                    "type": "string"
+                },
+                "Quantity": {
+                    "type": "integer"
+                },
+                "ReservationId": {
+                    "type": "string"
+                }
+            }
+        },
+        "genproto.Orders": {
+            "type": "object",
+            "properties": {
+                "Orders": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/genproto.Order"
+                    }
                 }
             }
         },
