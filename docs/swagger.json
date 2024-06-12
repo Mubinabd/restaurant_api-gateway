@@ -439,6 +439,179 @@
                 }
             }
         },
+        "/payment/all": {
+            "get": {
+                "description": "This api gets all payments",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "PAYMENT"
+                ],
+                "summary": "Gets all Payments",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "PaymentMethod",
+                        "name": "payment_method",
+                        "in": "path"
+                    },
+                    {
+                        "type": "string",
+                        "description": "AmountFrom",
+                        "name": "amount_from",
+                        "in": "path"
+                    },
+                    {
+                        "type": "string",
+                        "description": "AmountTo",
+                        "name": "amount_to",
+                        "in": "path"
+                    },
+                    {
+                        "type": "string",
+                        "description": "PaymentStatus",
+                        "name": "payment_status",
+                        "in": "path"
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "$ref": "#/definitions/genproto.Payment"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/payment/create": {
+            "post": {
+                "description": "This api creates payment",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "PAYMENT"
+                ],
+                "summary": "Creates Payment",
+                "parameters": [
+                    {
+                        "description": "PaymentCreate",
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/genproto.PaymentCreate"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "$ref": "#/definitions/genproto.Payment"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/payment/update": {
+            "post": {
+                "description": "This api updates payment",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "PAYMENT"
+                ],
+                "summary": "Updates Payment",
+                "parameters": [
+                    {
+                        "description": "PaymentCreate",
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/genproto.PaymentCreate"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "$ref": "#/definitions/genproto.Payment"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/payment/{id}": {
+            "get": {
+                "description": "This api gets payment",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "PAYMENT"
+                ],
+                "summary": "Gets Payment",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "PaymentCreate",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "$ref": "#/definitions/genproto.Payment"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
         "/reservation/all": {
             "get": {
                 "description": "This api GETS ALL reservation by id",
@@ -534,52 +707,6 @@
                 }
             }
         },
-        "/reservation/update": {
-            "put": {
-                "description": "This api UPDATES reservation by id",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "RESERVATION"
-                ],
-                "summary": "UPDATES RESERVATION",
-                "parameters": [
-                    {
-                        "description": "RESERVATION",
-                        "name": "reservation",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/genproto.ReservationCreate"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "reservation updated successfully",
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
-                    "404": {
-                        "description": "Not Found",
-                        "schema": {
-                            "type": "string"
-                        }
-                    }
-                }
-            }
-        },
         "/reservation/{id}": {
             "get": {
                 "description": "This api GETS reservation by id",
@@ -607,6 +734,57 @@
                         "description": "OK",
                         "schema": {
                             "$ref": "#/definitions/genproto.Reservation"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "description": "This api UPDATES reservation by id",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "RESERVATION"
+                ],
+                "summary": "UPDATES RESERVATION",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Reservation ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "RESERVATION",
+                        "name": "reservation",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/genproto.Reservation"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "reservation updated successfully",
+                        "schema": {
+                            "type": "string"
                         }
                     },
                     "400": {
@@ -940,6 +1118,43 @@
                     "items": {
                         "$ref": "#/definitions/genproto.Order"
                     }
+                }
+            }
+        },
+        "genproto.Payment": {
+            "type": "object",
+            "properties": {
+                "Amount": {
+                    "type": "number"
+                },
+                "Id": {
+                    "type": "string"
+                },
+                "PaymentMethod": {
+                    "type": "string"
+                },
+                "PaymentStatus": {
+                    "type": "string"
+                },
+                "ReservationId": {
+                    "type": "string"
+                }
+            }
+        },
+        "genproto.PaymentCreate": {
+            "type": "object",
+            "properties": {
+                "Amount": {
+                    "type": "number"
+                },
+                "Id": {
+                    "type": "string"
+                },
+                "PaymentMethod": {
+                    "type": "string"
+                },
+                "ReservationId": {
+                    "type": "string"
                 }
             }
         },
