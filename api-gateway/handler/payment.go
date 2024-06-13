@@ -2,6 +2,7 @@ package handler
 
 import (
 	"context"
+	"log"
 	"net/http"
 	"strconv"
 
@@ -15,6 +16,7 @@ import (
 // @Tags 				PAYMENT
 // @Accept 				json
 // @Produce 			json
+// @Security            BearerAuth
 // @Param data 			body pb.PaymentCreate true "PaymentCreate"
 // @Success 201 		{object} pb.Payment
 // @Failure 400 		string Error
@@ -38,6 +40,7 @@ func (h *HandlerStruct) CreatePayment(c *gin.Context) {
 // @Tags 				PAYMENT
 // @Accept 				json
 // @Produce 			json
+// @Security            BearerAuth
 // @Param id 			path string true "PaymentCreate"
 // @Success 201 		{object} pb.Payment
 // @Failure 400 		string Error
@@ -53,12 +56,13 @@ func (h *HandlerStruct) GetPayment(c *gin.Context) {
 	c.JSON(http.StatusOK, payment)
 }
 
-// @Router 				/payment/update [POST]
+// @Router 				/payment/update [PUT]
 // @Summary 			Updates Payment
 // @Description		 	This api updates payment
 // @Tags 				PAYMENT
 // @Accept 				json
 // @Produce 			json
+// @Security            BearerAuth
 // @Param data 			body pb.PaymentCreate true "PaymentCreate"
 // @Success 201 		{object} pb.Payment
 // @Failure 400 		string Error
@@ -81,10 +85,11 @@ func (h *HandlerStruct) UpdatePayment(c *gin.Context) {
 // @Tags 				PAYMENT
 // @Accept 				json
 // @Produce 			json
-// @Param payment_method  path string false "PaymentMethod"
-// @Param amount_from   path string false "AmountFrom"
-// @Param amount_to     path string false "AmountTo"
-// @Param payment_status path string false "PaymentStatus"
+// @Security            BearerAuth
+// @Param payment_method  query string false "PaymentMethod"
+// @Param amount_from   	query string false "AmountFrom"
+// @Param amount_to     query string false "AmountTo"
+// @Param payment_status query string false "PaymentStatus"
 // @Success 201 		{object} pb.Payment
 // @Failure 400 		string Error
 func (h *HandlerStruct) GetAllPayments(c *gin.Context) {
@@ -93,6 +98,7 @@ func (h *HandlerStruct) GetAllPayments(c *gin.Context) {
 	amount_toStr := c.Query("amount_to")
 	payment_status := c.Query("payment_status")
 
+	log.Println(pay_method, amount_fromStr,1111111111)
 	var amount_from, amount_to float32
 	var err error
 

@@ -16,6 +16,7 @@ import (
 // @Tags 				ORDER
 // @Accept 				json
 // @Produce 			json
+// @Security            BearerAuth
 // @Param data 			body pb.Order true "Void"
 // @Success 201 		{object} pb.Void
 // @Failure 400 		string Error
@@ -64,6 +65,7 @@ func (h *HandlerStruct) GetOrder(c *gin.Context) {
 // @Tags 				ORDER
 // @Accept 				json
 // @Produce 			json
+// @Security            BearerAuth
 // @Param id 			path string true "ById"
 // @Param menu_item_id  query string false "Menu Item ID"
 // @Param reservation_id query string false "Reservation ID"
@@ -98,6 +100,7 @@ func (h *HandlerStruct)UpdateOrder(c *gin.Context) {
 // @Tags 				ORDER
 // @Accept 				json
 // @Produce 			json
+// @Security            BearerAuth
 // @Param 			    id path string true "ORDER ID"
 // @Success 201 		{object} pb.Void
 // @Failure 400 		string Error
@@ -121,6 +124,7 @@ func (h *HandlerStruct) DeleteOrder(c *gin.Context) {
 // @Tags 				ORDER
 // @Accept 				json
 // @Produce 			json
+// @Security            BearerAuth
 // @Success 201 		{object} pb.Orders
 // @Failure 400 		string Error
 func (h *HandlerStruct) GetAllOrders(c *gin.Context) {

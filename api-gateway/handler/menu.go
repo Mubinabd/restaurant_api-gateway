@@ -9,12 +9,13 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-// @Router 				/menu/create [POST]
+// @Router 				/admin/menu/create [POST]
 // @Summary 			Create Menu
 // @Description		 	This api create menu
 // @Tags 				MENU
 // @Accept 				json
 // @Produce 			json
+// @Security            BearerAuth
 // @Param data 			body genproto.Menu true "Menu"
 // @Success 201 		{object} string "menu created successfully"
 // @Failure 400 		string Error
@@ -32,12 +33,13 @@ func (h *HandlerStruct) CreateMenu(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"message": "menu created successfully"})
 }
 
-// @Router 				/menu/update [PUT]
+// @Router 				/admin/menu/update [PUT]
 // @Summary 			UPDATES MENU
 // @Description		 	This api UPDATES menu 
 // @Tags 				MENU
 // @Accept 				json
 // @Produce 			json
+// @Security            BearerAuth
 // @Param  reservation  body genproto.Menu true "MENU"
 // @Success 200			{object} string "menu updated successfully"
 // @Failure 400 		string Error
@@ -56,12 +58,13 @@ func (h *HandlerStruct) UpdateMenu(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"message": "menu updated successfully"})
 }
 
-// @Router 				/menu/{id} [DELETE]
+// @Router 				/admin/menu/{id} [DELETE]
 // @Summary 			DELETES Menu
 // @Description		 	This api DELETES menu by id
 // @Tags 				MENU
 // @Accept 				json
 // @Produce 			json
+// @Security            BearerAuth
 // @Param 			    id path string true "MENU ID"
 // @Success 200			{object} string "menu deleted successfully"
 // @Failure 400 		string Error
@@ -83,6 +86,7 @@ func (h *HandlerStruct) DeleteMenu(c *gin.Context) {
 // @Tags 				MENU
 // @Accept 				json
 // @Produce 			json
+// @Security            BearerAuth
 // @Param 			    id path string true "MENU ID"
 // @Success 200			{object} genproto.Menu
 // @Failure 400 		string Error
@@ -105,6 +109,7 @@ func (h *HandlerStruct) GetMenu(c *gin.Context) {
 // @Tags 				MENU
 // @Accept 				json
 // @Produce 			json
+// @Security            BearerAuth
 // @Param 			    rest_id query string false "RESTAURANT ID"
 // @Param               price_from query string false "PriceFrom"
 // @Param               price_to query string false "PriceTo"

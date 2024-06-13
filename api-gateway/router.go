@@ -3,7 +3,9 @@ package api
 import (
 	"github.com/Mubinabd/restaurant_api-gateway/api-gateway/handler"
 	_ "github.com/Mubinabd/restaurant_api-gateway/docs"
+	"github.com/Mubinabd/restaurant_api-gateway/middleware"
 	"github.com/gin-contrib/cors"
+
 	// "google.golang.org/genproto/googleapis/cloud/bigquery/reservation/v1"
 
 	"github.com/gin-gonic/gin"
@@ -20,39 +22,69 @@ func NewGin(h *handler.HandlerStruct) *gin.Engine {
 	r := gin.Default()
 
 	corsConfig := cors.Config{
-		AllowOrigins:     []string{"http://localhost", "http://localhost:8080"},
+		AllowOrigins:     []string{"http://localhost", "http://localhost:8090"},
 		AllowMethods:     []string{"GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"},
 		AllowHeaders:     []string{"Origin", "Authorization", "Content-Type"},
 		AllowCredentials: true,
 	}
 	r.Use(cors.New(corsConfig))
 
+	restaurantAdmin := r.Group("/admin/restaurant")
+	restaurantAdmin.Use(middleware.MiddlewareAdmin())
+	{
+		restaurantAdmin.POST("/create", h.CreateRestaurant)
+		restaurantAdmin.PUT("/:id", h.UpdateRestaurant)
+		restaurantAdmin.DELETE("/:id", h.DeleteRestaurant)
+	}
 
 	restaurant := r.Group("/restaurant")
+	restaurant.Use(middleware.Middleware())
 	{
-		restaurant.POST("/create", h.CreateRestaurant)
 		restaurant.GET("/:id", h.GetRestaurant)
 		restaurant.GET("/all", h.GetAllRestaurants)
-		restaurant.PUT("/:id", h.UpdateRestaurant)
-		restaurant.DELETE("/:id", h.DeleteRestaurant)
 	}
-	reservation := r.Group("/reservation")
+
+
+
+
+	reservationAdmin := r.Group("/admin/reservation")
+	reservationAdmin.Use(middleware.MiddlewareAdmin())
 	{
-		reservation.POST("/create", h.CreateReservation)
+        reservationAdmin.PUT("/:id", h.UpdateReservation)
+        reservationAdmin.DELETE("/:id", h.DeleteReservation)
+	}
+
+	reservation := r.Group("/reservation")
+	reservation.Use(middleware.Middleware())
+	{
         reservation.GET("/:id", h.GetReservation)
         reservation.GET("/all", h.GetAllReservations)
-        reservation.PUT("/:id", h.UpdateReservation)
-        reservation.DELETE("/:id", h.DeleteReservation)
+		reservation.GET("/total/:id", h.GetTotalSum)
+		reservation.POST("/:id/check", h.CheckReservation)
+		reservation.POST("/:id/add-order", h.AddOrder)
+		reservation.POST("/:id/payment", h.ReservationPayment)
 	}
+
+
+	menuAdmin := r.Group("/admin/menu")
+	menuAdmin.Use(middleware.MiddlewareAdmin())
+    {
+		menuAdmin.POST("/create", h.CreateMenu)
+		menuAdmin.PUT("/update", h.UpdateMenu)
+        menuAdmin.DELETE("/:id", h.DeleteMenu)
+	}
+	
 	menu := r.Group("/menu")
+	menu.Use(middleware.Middleware())
 	{
-		menu.POST("/create", h.CreateMenu)
         menu.GET("/:id", h.GetMenu)
         menu.GET("/all", h.GetAllMenus)
-        menu.PUT("/update", h.UpdateMenu)
-        menu.DELETE("/:id", h.DeleteMenu)
 	}
+
+
+
 	order := r.Group("/order")
+	order.Use(middleware.Middleware())
 	{
 		order.POST("/create", h.CreateOrder)
         order.GET("/:id", h.GetOrder)
@@ -60,7 +92,10 @@ func NewGin(h *handler.HandlerStruct) *gin.Engine {
         order.PUT("/:id", h.UpdateOrder)
         order.DELETE("/:id", h.DeleteOrder)
 	}
+
+
 	payment := r.Group("/payment")
+	payment.Use(middleware.Middleware())
 	{
 		payment.POST("/create", h.CreatePayment)
         payment.GET("/:id", h.GetPayment)

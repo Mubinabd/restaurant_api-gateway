@@ -9,12 +9,13 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-// @Router 				/restaurant/create [POST]
+// @Router 				/admin/restaurant/create [POST]
 // @Summary 			Create Restaurant
 // @Description		 	This api create restaurant
 // @Tags 				RESTAURANT
 // @Accept 				json
 // @Produce 			json
+// @Security            BearerAuth
 // @Param data 			body pb.CreateRestaurantReq true "CreateRestaurantReq"
 // @Success 201 		{object} pb.Void
 // @Failure 400 		string Error
@@ -38,6 +39,7 @@ func (h *HandlerStruct)CreateRestaurant(c *gin.Context) {
 // @Tags 				RESTAURANT
 // @Accept 				json
 // @Produce 			json
+// @Security            BearerAuth
 // @Security    		BearerAuth
 // @Param 			    id path string true "RESTAURANT ID"
 // @Success 200			{object} pb.Restaurant
@@ -57,12 +59,13 @@ func (h *HandlerStruct)GetRestaurant(c *gin.Context) {
 	c.JSON(200, user)
 }
 
-// @Router 				/restaurant/{id} [PUT]
+// @Router 				/admin/restaurant/{id} [PUT]
 // @Summary 			Update Restaurant
 // @Description		 	This api logs  restaurant in
 // @Tags 				RESTAURANT
 // @Accept 				json
 // @Produce 			json
+// @Security            BearerAuth
 // @Param id 			path string true "Restaurant ID"
 // @Param restaurant    body pb.Restaurant true "Restaurant "
 // @Success 201 		{object} pb.Void
@@ -91,12 +94,13 @@ func (h *HandlerStruct)UpdateRestaurant(c *gin.Context) {
 	c.JSON(200, "Restaurant updated")
 }
 
-// @Router 				/restaurant/{id} [DELETE]
+// @Router 				/admin/restaurant/{id} [DELETE]
 // @Summary 			Delete Restaurant
 // @Description		 	This api logs  restaurant in
 // @Tags 				RESTAURANT
 // @Accept 				json
 // @Produce 			json
+// @Security            BearerAuth
 // @Param 			    id path string true "RESTAURANT ID"
 // @Success 201 		{object} pb.Void
 // @Failure 400 		string Error
@@ -119,6 +123,7 @@ func (h *HandlerStruct)DeleteRestaurant(c *gin.Context) {
 // @Tags 				RESTAURANT
 // @Accept 				json
 // @Produce 			json
+// @Security            BearerAuth
 // @Param 			    address query string false "RESTAURANT Address"
 // @Success 200 		{object} pb.Restaurants
 // @Failure 400 		string Error
