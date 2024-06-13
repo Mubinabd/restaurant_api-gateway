@@ -1,3 +1,4 @@
+basePath: /
 definitions:
   genproto.CreateRestaurantReq:
     properties:
@@ -91,6 +92,27 @@ definitions:
       User_id:
         type: string
     type: object
+  genproto.ReservationOrder:
+    properties:
+      MenuItemId:
+        type: string
+      Quantity:
+        type: integer
+    type: object
+  genproto.ReservationPayment:
+    properties:
+      Amount:
+        type: number
+      PaymentMethod:
+        type: string
+    type: object
+  genproto.ResrvationTime:
+    properties:
+      ReservationTime:
+        type: string
+      RestaurantId:
+        type: string
+    type: object
   genproto.Restaurant:
     properties:
       Address:
@@ -109,12 +131,18 @@ definitions:
           $ref: '#/definitions/genproto.Restaurant'
         type: array
     type: object
+  genproto.Total:
+    properties:
+      Total:
+        type: number
+    type: object
   genproto.Void:
     type: object
 info:
   contact: {}
+  title: Online Voting System Swagger UI
 paths:
-  /menu/{id}:
+  /admin/menu/{id}:
     delete:
       consumes:
       - application/json
@@ -140,9 +168,226 @@ paths:
           description: Not Found
           schema:
             type: string
+      security:
+      - BearerAuth: []
       summary: DELETES Menu
       tags:
       - MENU
+  /admin/menu/create:
+    post:
+      consumes:
+      - application/json
+      description: This api create menu
+      parameters:
+      - description: Menu
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/genproto.Menu'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: menu created successfully
+          schema:
+            type: string
+        "400":
+          description: Bad Request
+          schema:
+            type: string
+      security:
+      - BearerAuth: []
+      summary: Create Menu
+      tags:
+      - MENU
+  /admin/menu/update:
+    put:
+      consumes:
+      - application/json
+      description: This api UPDATES menu
+      parameters:
+      - description: MENU
+        in: body
+        name: reservation
+        required: true
+        schema:
+          $ref: '#/definitions/genproto.Menu'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: menu updated successfully
+          schema:
+            type: string
+        "400":
+          description: Bad Request
+          schema:
+            type: string
+        "404":
+          description: Not Found
+          schema:
+            type: string
+      security:
+      - BearerAuth: []
+      summary: UPDATES MENU
+      tags:
+      - MENU
+  /admin/reservation/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: This api DELETES reservation by id
+      parameters:
+      - description: RESERVATION ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: reservation deleted successfully
+          schema:
+            type: string
+        "400":
+          description: Bad Request
+          schema:
+            type: string
+        "404":
+          description: Not Found
+          schema:
+            type: string
+      security:
+      - BearerAuth: []
+      summary: DELETES RESERVATION
+      tags:
+      - RESERVATION
+    put:
+      consumes:
+      - application/json
+      description: This api UPDATES reservation by id
+      parameters:
+      - description: Reservation ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: RESERVATION
+        in: body
+        name: reservation
+        required: true
+        schema:
+          $ref: '#/definitions/genproto.Reservation'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: reservation updated successfully
+          schema:
+            type: string
+        "400":
+          description: Bad Request
+          schema:
+            type: string
+        "404":
+          description: Not Found
+          schema:
+            type: string
+      security:
+      - BearerAuth: []
+      summary: UPDATES RESERVATION
+      tags:
+      - RESERVATION
+  /admin/restaurant/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: This api logs  restaurant in
+      parameters:
+      - description: RESTAURANT ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/genproto.Void'
+        "400":
+          description: Bad Request
+          schema:
+            type: string
+      security:
+      - BearerAuth: []
+      summary: Delete Restaurant
+      tags:
+      - RESTAURANT
+    put:
+      consumes:
+      - application/json
+      description: This api logs  restaurant in
+      parameters:
+      - description: Restaurant ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: 'Restaurant '
+        in: body
+        name: restaurant
+        required: true
+        schema:
+          $ref: '#/definitions/genproto.Restaurant'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/genproto.Void'
+        "400":
+          description: Bad Request
+          schema:
+            type: string
+      security:
+      - BearerAuth: []
+      summary: Update Restaurant
+      tags:
+      - RESTAURANT
+  /admin/restaurant/create:
+    post:
+      consumes:
+      - application/json
+      description: This api create restaurant
+      parameters:
+      - description: CreateRestaurantReq
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/genproto.CreateRestaurantReq'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/genproto.Void'
+        "400":
+          description: Bad Request
+          schema:
+            type: string
+      security:
+      - BearerAuth: []
+      summary: Create Restaurant
+      tags:
+      - RESTAURANT
+  /menu/{id}:
     get:
       consumes:
       - application/json
@@ -168,6 +413,8 @@ paths:
           description: Not Found
           schema:
             type: string
+      security:
+      - BearerAuth: []
       summary: GET MENU
       tags:
       - MENU
@@ -204,63 +451,9 @@ paths:
           description: Not Found
           schema:
             type: string
+      security:
+      - BearerAuth: []
       summary: GETS ALL MENUS
-      tags:
-      - MENU
-  /menu/create:
-    post:
-      consumes:
-      - application/json
-      description: This api create menu
-      parameters:
-      - description: Menu
-        in: body
-        name: data
-        required: true
-        schema:
-          $ref: '#/definitions/genproto.Menu'
-      produces:
-      - application/json
-      responses:
-        "201":
-          description: menu created successfully
-          schema:
-            type: string
-        "400":
-          description: Bad Request
-          schema:
-            type: string
-      summary: Create Menu
-      tags:
-      - MENU
-  /menu/update:
-    put:
-      consumes:
-      - application/json
-      description: This api UPDATES menu
-      parameters:
-      - description: MENU
-        in: body
-        name: reservation
-        required: true
-        schema:
-          $ref: '#/definitions/genproto.Menu'
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: menu updated successfully
-          schema:
-            type: string
-        "400":
-          description: Bad Request
-          schema:
-            type: string
-        "404":
-          description: Not Found
-          schema:
-            type: string
-      summary: UPDATES MENU
       tags:
       - MENU
   /order/{id}:
@@ -285,6 +478,8 @@ paths:
           description: Bad Request
           schema:
             type: string
+      security:
+      - BearerAuth: []
       summary: Delete Order
       tags:
       - ORDER
@@ -351,6 +546,8 @@ paths:
           description: Bad Request
           schema:
             type: string
+      security:
+      - BearerAuth: []
       summary: Update Order
       tags:
       - ORDER
@@ -370,6 +567,8 @@ paths:
           description: Bad Request
           schema:
             type: string
+      security:
+      - BearerAuth: []
       summary: Get all Orders
       tags:
       - ORDER
@@ -396,6 +595,8 @@ paths:
           description: Bad Request
           schema:
             type: string
+      security:
+      - BearerAuth: []
       summary: Create Order
       tags:
       - ORDER
@@ -421,6 +622,8 @@ paths:
           description: Bad Request
           schema:
             type: string
+      security:
+      - BearerAuth: []
       summary: Gets Payment
       tags:
       - PAYMENT
@@ -431,19 +634,19 @@ paths:
       description: This api gets all payments
       parameters:
       - description: PaymentMethod
-        in: path
+        in: query
         name: payment_method
         type: string
       - description: AmountFrom
-        in: path
+        in: query
         name: amount_from
         type: string
       - description: AmountTo
-        in: path
+        in: query
         name: amount_to
         type: string
       - description: PaymentStatus
-        in: path
+        in: query
         name: payment_status
         type: string
       produces:
@@ -457,6 +660,8 @@ paths:
           description: Bad Request
           schema:
             type: string
+      security:
+      - BearerAuth: []
       summary: Gets all Payments
       tags:
       - PAYMENT
@@ -483,11 +688,13 @@ paths:
           description: Bad Request
           schema:
             type: string
+      security:
+      - BearerAuth: []
       summary: Creates Payment
       tags:
       - PAYMENT
   /payment/update:
-    post:
+    put:
       consumes:
       - application/json
       description: This api updates payment
@@ -509,38 +716,12 @@ paths:
           description: Bad Request
           schema:
             type: string
+      security:
+      - BearerAuth: []
       summary: Updates Payment
       tags:
       - PAYMENT
   /reservation/{id}:
-    delete:
-      consumes:
-      - application/json
-      description: This api DELETES reservation by id
-      parameters:
-      - description: RESERVATION ID
-        in: path
-        name: id
-        required: true
-        type: string
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: reservation deleted successfully
-          schema:
-            type: string
-        "400":
-          description: Bad Request
-          schema:
-            type: string
-        "404":
-          description: Not Found
-          schema:
-            type: string
-      summary: DELETES RESERVATION
-      tags:
-      - RESERVATION
     get:
       consumes:
       - application/json
@@ -566,30 +747,33 @@ paths:
           description: Not Found
           schema:
             type: string
+      security:
+      - BearerAuth: []
       summary: GET RESERVATION
       tags:
       - RESERVATION
-    put:
+  /reservation/{id}/add-order:
+    post:
       consumes:
       - application/json
-      description: This api UPDATES reservation by id
+      description: This api DELETES reservation by id
       parameters:
-      - description: Reservation ID
+      - description: RESERVATION ID
         in: path
         name: id
         required: true
         type: string
-      - description: RESERVATION
+      - description: order data
         in: body
-        name: reservation
+        name: data
         required: true
         schema:
-          $ref: '#/definitions/genproto.Reservation'
+          $ref: '#/definitions/genproto.ReservationOrder'
       produces:
       - application/json
       responses:
         "200":
-          description: reservation updated successfully
+          description: order created successfully
           schema:
             type: string
         "400":
@@ -600,7 +784,78 @@ paths:
           description: Not Found
           schema:
             type: string
-      summary: UPDATES RESERVATION
+      security:
+      - BearerAuth: []
+      summary: ADDS ORDER TO RESERVATION
+      tags:
+      - RESERVATION
+  /reservation/{id}/check:
+    post:
+      consumes:
+      - application/json
+      description: This api CHECKS IF THE IT IS AVAILABLE FOR RESERVATION
+      parameters:
+      - description: RESERVATION Check
+        in: body
+        name: DATA
+        required: true
+        schema:
+          $ref: '#/definitions/genproto.ResrvationTime'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: this reservation time is not reserved yet!
+          schema:
+            type: string
+        "400":
+          description: Bad Request
+          schema:
+            type: string
+        "404":
+          description: Not Found
+          schema:
+            type: string
+      security:
+      - BearerAuth: []
+      summary: CHECKS IF THE IT IS AVAILABLE FOR RESERVATION
+      tags:
+      - RESERVATION
+  /reservation/{id}/payment:
+    post:
+      consumes:
+      - application/json
+      description: This api PAYS for reservation
+      parameters:
+      - description: RESERVATION ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: PAYMENT data
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/genproto.ReservationPayment'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/genproto.Payment'
+        "400":
+          description: Bad Request
+          schema:
+            type: string
+        "404":
+          description: Not Found
+          schema:
+            type: string
+      security:
+      - BearerAuth: []
+      summary: PAYS FOR RESERVATION
       tags:
       - RESERVATION
   /reservation/all:
@@ -636,6 +891,8 @@ paths:
           description: Not Found
           schema:
             type: string
+      security:
+      - BearerAuth: []
       summary: GETS ALL RESERVATION
       tags:
       - RESERVATION
@@ -662,16 +919,18 @@ paths:
           description: Bad Request
           schema:
             type: string
+      security:
+      - BearerAuth: []
       summary: Create Reservation
       tags:
       - RESERVATION
-  /restaurant/{id}:
-    delete:
+  /reservation/total/{id}:
+    get:
       consumes:
       - application/json
-      description: This api logs  restaurant in
+      description: This api GETS TOTAL PAYCHECK FOR reservation by id
       parameters:
-      - description: RESTAURANT ID
+      - description: RESERVATION ID
         in: path
         name: id
         required: true
@@ -679,17 +938,24 @@ paths:
       produces:
       - application/json
       responses:
-        "201":
-          description: Created
+        "200":
+          description: OK
           schema:
-            $ref: '#/definitions/genproto.Void'
+            $ref: '#/definitions/genproto.Total'
         "400":
           description: Bad Request
           schema:
             type: string
-      summary: Delete Restaurant
+        "404":
+          description: Not Found
+          schema:
+            type: string
+      security:
+      - BearerAuth: []
+      summary: GET TOTAL SUM FOR  RESERVATION
       tags:
-      - RESTAURANT
+      - RESERVATION
+  /restaurant/{id}:
     get:
       consumes:
       - application/json
@@ -717,37 +983,8 @@ paths:
             type: string
       security:
       - BearerAuth: []
+      - BearerAuth: []
       summary: GET RESTAURANT
-      tags:
-      - RESTAURANT
-    put:
-      consumes:
-      - application/json
-      description: This api logs  restaurant in
-      parameters:
-      - description: Restaurant ID
-        in: path
-        name: id
-        required: true
-        type: string
-      - description: 'Restaurant '
-        in: body
-        name: restaurant
-        required: true
-        schema:
-          $ref: '#/definitions/genproto.Restaurant'
-      produces:
-      - application/json
-      responses:
-        "201":
-          description: Created
-          schema:
-            $ref: '#/definitions/genproto.Void'
-        "400":
-          description: Bad Request
-          schema:
-            type: string
-      summary: Update Restaurant
       tags:
       - RESTAURANT
   /restaurant/all:
@@ -771,33 +1008,14 @@ paths:
           description: Bad Request
           schema:
             type: string
+      security:
+      - BearerAuth: []
       summary: Get all Restaurants
       tags:
       - RESTAURANT
-  /restaurant/create:
-    post:
-      consumes:
-      - application/json
-      description: This api create restaurant
-      parameters:
-      - description: CreateRestaurantReq
-        in: body
-        name: data
-        required: true
-        schema:
-          $ref: '#/definitions/genproto.CreateRestaurantReq'
-      produces:
-      - application/json
-      responses:
-        "201":
-          description: Created
-          schema:
-            $ref: '#/definitions/genproto.Void'
-        "400":
-          description: Bad Request
-          schema:
-            type: string
-      summary: Create Restaurant
-      tags:
-      - RESTAURANT
+securityDefinitions:
+  BearerAuth:
+    in: header
+    name: Authorization
+    type: apiKey
 swagger: "2.0"

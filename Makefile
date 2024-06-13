@@ -19,4 +19,4 @@ mig-insert:
 proto-gen:
 	./scripts/gen-proto.sh ${CURRENT_DIR}
 swag-gen:
-	~/go/bin/swag init -g ./api/api.go -o docs force 1	
+	~/go/bin/swag init -g ./api-gateway/router.go -o docs force 1	
